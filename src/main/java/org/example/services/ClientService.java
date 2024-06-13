@@ -61,6 +61,7 @@ public class ClientService {
         return true;
     }
 
+    @SuppressWarnings("unchecked")
     public Client getUser(String phoneNumber) {
         Document userDoc = userCollection.find(eq("phoneNumber", phoneNumber)).first();
         if (userDoc == null) {
@@ -91,4 +92,33 @@ public class ClientService {
                         .append("$push", new Document("transactionHistory", "Deposited: " + amount)));
         return true;
     }
+    
+        public boolean transferFunds(String fromPhoneNumber, String toPhoneNumber, double amount) {
+            Document fromUserDoc = userCollection.find(eq("phoneNumber", fromPhoneNumber)).first();
+            Document toUserDoc = userCollection.find(eq("phoneNumber", toPhoneNumber)).first();
+            if (fromUserDoc == null || toUserDoc == null || amount <= 0) {
+                return false; // User not found or invalid amount
+            }
+    
+            double fromUserBalance = fromUserDoc.getDouble("balance");
+            if (fromUserBalance < amount) {
+                return false; // Insufficient funds
+            }
+    
+            double toUserBalance = toUserDoc.getDouble("balance");
+    
+            userCollection.updateOne(eq("phoneNumber", fromPhoneNumber),
+                    new Document("$set", new Document("balance", fromUserBalance - amount))
+                            .append("$push", new Document("transactionHistory", "Transferred: " + amount + " to " + toPhoneNumber)));
+    
+            userCollection.updateOne(eq("phoneNumber", toPhoneNumber),
+                    new Document("$set", new Document("balance", toUserBalance + amount))
+                            .append("$push", new Document("transactionHistory", "Received: " + amount + " from " + fromPhoneNumber)));
+    
+            return true;
+        }
+    
+    
+
+
 }
