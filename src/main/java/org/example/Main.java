@@ -2,8 +2,11 @@ package org.example;
 
 import java.util.Scanner;
 
+import org.example.models.Client;
+import org.example.services.ClientService;
+
 public class Main {
-    private static UserService userService = new UserService();
+    private static ClientService userService = new ClientService();
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -53,7 +56,7 @@ public class Main {
         System.out.print("Enter phone number: ");
         String phoneNumber = scanner.nextLine();
 
-        User user = userService.getUser(phoneNumber);
+        Client user = userService.getUser(phoneNumber);
         if (user == null) {
             System.out.println("User not found.");
             return;

@@ -1,17 +1,20 @@
-package org.example;
+package org.example.services;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.example.config.MongoDBConnection;
+import org.example.config.PasswordUtils;
+import org.example.models.Client;
 
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public class UserService {
+public class ClientService {
     private MongoCollection<Document> userCollection;
 
-    public UserService() {
+    public ClientService() {
         MongoDatabase database = MongoDBConnection.getDatabase();
         userCollection = database.getCollection("users");
     }
@@ -22,7 +25,7 @@ public class UserService {
         }
 
         String hashedPassword = PasswordUtils.hashPassword(password);
-        User newUser = new User(name, address, phoneNumber, hashedPassword);
+        Client newUser = new Client(name, address, phoneNumber, hashedPassword);
 
         Document newUserDoc = new Document("name", newUser.getName())
                 .append("address", newUser.getAddress())
@@ -58,13 +61,13 @@ public class UserService {
         return true;
     }
 
-    public User getUser(String phoneNumber) {
+    public Client getUser(String phoneNumber) {
         Document userDoc = userCollection.find(eq("phoneNumber", phoneNumber)).first();
         if (userDoc == null) {
             return null;
         }
 
-        User user = new User(
+        Client user = new Client(
                 userDoc.getString("name"),
                 userDoc.getString("address"),
                 userDoc.getString("phoneNumber"),

@@ -1,9 +1,9 @@
-package org.example;
+package org.example.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class Client {
     private String id;
     private String name;
     private String address;
@@ -13,7 +13,7 @@ public class User {
     private List<String> transactionHistory;
 
     // Constructor
-    public User(String name, String address, String phoneNumber, String hashedPassword) {
+    public Client(String name, String address, String phoneNumber, String hashedPassword) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;

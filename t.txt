@@ -1,0 +1,16 @@
+Structure du Projet
+1. Modèles (Models)
+Client: Représente les informations personnelles du client.
+CompteBancaire: Représente le compte bancaire d'un client.
+Transaction: Représente une transaction effectuée sur un compte bancaire.
+Message: Représente un message envoyé par un client au service client.
+
+2. Services
+CompteService: Service pour la gestion des comptes clients.
+TransactionService: Service pour les transactions (dépôts et virements).
+MessageService: Service pour la gestion des messages entre clients et service client.
+AdminService: Service pour la gestion des comptes par les administrateurs.
+
+3. Contrôleurs (Controllers)
+ClientController: Contrôleur pour les opérations effectuées par les clients.
+AdminController: Contrôleur pour les opérations effectuées par les administrateurs.
