@@ -202,7 +202,7 @@ public class Main {
         System.out.println("=========================================" + ANSI_RESET);
         System.out.println(ANSI_CYAN + "1. View All Clients");
         System.out.println("2. Create Account");
-        System.out.println("3. Deactivate Account");
+        System.out.println("3. Delete Account");
         System.out.println(ANSI_BLUE + "=========================================" + ANSI_RESET);
         System.out.print(ANSI_YELLOW + "Choose an option: " + ANSI_RESET);
 
@@ -265,9 +265,9 @@ public class Main {
 
         boolean success = adminController.deactivateAccount(phoneNumber);
         if (success) {
-            System.out.println(ANSI_GREEN + "Account deactivated successfully." + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "Account deleted successfully." + ANSI_RESET);
         } else {
-            System.out.println(ANSI_RED + "Failed to deactivate account. User not found." + ANSI_RESET);
+            System.out.println(ANSI_RED + "Failed to deleted account. User not found." + ANSI_RESET);
         }
     }
 
