@@ -20,7 +20,7 @@ public class TransactionService {
         Document toUserDoc = userCollection.find(eq("phoneNumber", toPhoneNumber)).first();
 
         if (fromUserDoc == null || toUserDoc == null || amount <= 0 || fromUserDoc.getDouble("balance") < amount) {
-            return false; // Users not found, invalid amount, or insufficient funds
+            return false; 
         }
 
         double newFromBalance = fromUserDoc.getDouble("balance") - amount;

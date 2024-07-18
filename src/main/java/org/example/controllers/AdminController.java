@@ -1,6 +1,7 @@
 package org.example.controllers;
 
 import org.example.models.Client;
+import org.example.models.Message;
 import org.example.services.AdminService;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class AdminController {
 
     public List<Client> getAllClients() {
         return adminService.getAllClients();
+    }
+    public List<Message> getAllMessages() {
+        return adminService.getAllMessages();
     }
 
     public boolean createAccount(Client client) {

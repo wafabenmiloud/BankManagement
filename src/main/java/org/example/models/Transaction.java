@@ -3,7 +3,7 @@ package org.example.models;
 import java.util.Date;
 
 public class Transaction {
-    private String type; // "DEPOSIT", "TRANSFER"
+    private String type; 
     private double amount;
     private Date date;
     private String description;
@@ -15,7 +15,7 @@ public class Transaction {
         this.description = description;
     }
 
-    // Getters and Setters
+
     public String getType() {
         return type;
     }

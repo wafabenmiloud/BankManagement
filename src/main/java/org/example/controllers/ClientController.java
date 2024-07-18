@@ -19,8 +19,8 @@ public class ClientController {
         messagingService = new MessagingService();
     }
 
-    public boolean createAccount(String name, String address, String phoneNumber, String password) {
-        return clientService.createAccount(name, address, phoneNumber, password);
+    public boolean createAccount(String name, String address, String phoneNumber, String email, String password) {
+        return clientService.createAccount(name, address, phoneNumber, email, password);
     }
 
     public boolean updateUser(String phoneNumber, String newAddress, String newPhoneNumber) {
@@ -50,6 +50,7 @@ public class ClientController {
     public List<Message> getMessagesForClient(String clientId) {
         return messagingService.getMessagesForClient(clientId);
     }
+
     public boolean transferFunds(String fromPhoneNumber, String toPhoneNumber, double amount) {
         return clientService.transferFunds(fromPhoneNumber, toPhoneNumber, amount);
     }

@@ -5,7 +5,6 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.example.config.MongoDBConnection;
 import org.example.models.Message;
-
 import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
@@ -37,6 +36,20 @@ public class MessagingService {
                     doc.getString("clientId"),
                     doc.getString("message")
             );
+            message.setTimestamp(doc.getDate("timestamp"));
+            messages.add(message);
+        }
+        return messages;
+    }
+
+    public List<Message> getAllMessages() {
+        List<Message> messages = new ArrayList<>();
+        for (Document doc : messageCollection.find()) {
+            Message message = new Message(
+                    doc.getString("clientId"),
+                    doc.getString("message")
+            );
+            message.setId(doc.getObjectId("_id").toString());
             message.setTimestamp(doc.getDate("timestamp"));
             messages.add(message);
         }

@@ -8,15 +8,17 @@ public class Client {
     private String name;
     private String address;
     private String phoneNumber;
+    private String email;
     private String hashedPassword;
     private double balance;
     private List<String> transactionHistory;
 
-    // Constructor
-    public Client(String name, String address, String phoneNumber, String hashedPassword) {
+
+    public Client(String name, String address, String phoneNumber, String email, String hashedPassword) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.hashedPassword = hashedPassword;
         this.balance = 0.0;
         this.transactionHistory = new ArrayList<>();
@@ -55,6 +57,14 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getHashedPassword() {
         return hashedPassword;
     }
@@ -79,7 +89,7 @@ public class Client {
         this.transactionHistory = transactionHistory;
     }
 
-    // Additional method to add a transaction to the history
+
     public void addTransaction(String transaction) {
         this.transactionHistory.add(transaction);
     }

@@ -19,17 +19,19 @@ public class ClientService {
         userCollection = database.getCollection("users");
     }
 
-    public boolean createAccount(String name, String address, String phoneNumber, String password) {
-        if (userCollection.find(eq("phoneNumber", phoneNumber)).first() != null) {
+    public boolean createAccount(String name, String address, String phoneNumber, String email, String password) {
+        if (userCollection.find(eq("phoneNumber", phoneNumber)).first() != null ||
+            userCollection.find(eq("email", email)).first() != null) {
             return false; // User already exists
         }
 
         String hashedPassword = PasswordUtils.hashPassword(password);
-        Client newUser = new Client(name, address, phoneNumber, hashedPassword);
+        Client newUser = new Client(name, address, phoneNumber, email, hashedPassword);
 
         Document newUserDoc = new Document("name", newUser.getName())
                 .append("address", newUser.getAddress())
                 .append("phoneNumber", newUser.getPhoneNumber())
+                .append("email", newUser.getEmail())
                 .append("hashedPassword", newUser.getHashedPassword())
                 .append("balance", newUser.getBalance())
                 .append("transactionHistory", newUser.getTransactionHistory());
@@ -72,6 +74,7 @@ public class ClientService {
                 userDoc.getString("name"),
                 userDoc.getString("address"),
                 userDoc.getString("phoneNumber"),
+                userDoc.getString("email"),
                 userDoc.getString("hashedPassword")
         );
         user.setBalance(userDoc.getDouble("balance"));
@@ -92,33 +95,29 @@ public class ClientService {
                         .append("$push", new Document("transactionHistory", "Deposited: " + amount)));
         return true;
     }
-    
-        public boolean transferFunds(String fromPhoneNumber, String toPhoneNumber, double amount) {
-            Document fromUserDoc = userCollection.find(eq("phoneNumber", fromPhoneNumber)).first();
-            Document toUserDoc = userCollection.find(eq("phoneNumber", toPhoneNumber)).first();
-            if (fromUserDoc == null || toUserDoc == null || amount <= 0) {
-                return false; // User not found or invalid amount
-            }
-    
-            double fromUserBalance = fromUserDoc.getDouble("balance");
-            if (fromUserBalance < amount) {
-                return false; // Insufficient funds
-            }
-    
-            double toUserBalance = toUserDoc.getDouble("balance");
-    
-            userCollection.updateOne(eq("phoneNumber", fromPhoneNumber),
-                    new Document("$set", new Document("balance", fromUserBalance - amount))
-                            .append("$push", new Document("transactionHistory", "Transferred: " + amount + " to " + toPhoneNumber)));
-    
-            userCollection.updateOne(eq("phoneNumber", toPhoneNumber),
-                    new Document("$set", new Document("balance", toUserBalance + amount))
-                            .append("$push", new Document("transactionHistory", "Received: " + amount + " from " + fromPhoneNumber)));
-    
-            return true;
+
+    public boolean transferFunds(String fromPhoneNumber, String toPhoneNumber, double amount) {
+        Document fromUserDoc = userCollection.find(eq("phoneNumber", fromPhoneNumber)).first();
+        Document toUserDoc = userCollection.find(eq("phoneNumber", toPhoneNumber)).first();
+        if (fromUserDoc == null || toUserDoc == null || amount <= 0) {
+            return false; 
         }
-    
-    
 
+        double fromUserBalance = fromUserDoc.getDouble("balance");
+        if (fromUserBalance < amount) {
+            return false; 
+        }
 
+        double toUserBalance = toUserDoc.getDouble("balance");
+
+        userCollection.updateOne(eq("phoneNumber", fromPhoneNumber),
+                new Document("$set", new Document("balance", fromUserBalance - amount))
+                        .append("$push", new Document("transactionHistory", "Transferred: " + amount + " to " + toPhoneNumber)));
+
+        userCollection.updateOne(eq("phoneNumber", toPhoneNumber),
+                new Document("$set", new Document("balance", toUserBalance + amount))
+                        .append("$push", new Document("transactionHistory", "Received: " + amount + " from " + fromPhoneNumber)));
+
+        return true;
+    }
 }

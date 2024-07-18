@@ -14,7 +14,14 @@ public class Message {
         this.timestamp = new Date();
     }
 
-    // Getters et Setters
+    public Message(String id, String clientId, String message, Date timestamp) {
+        this.id = id;
+        this.clientId = clientId;
+        this.message = message;
+        this.timestamp = timestamp;
+    }
+
+    // Getters and Setters
     public String getId() {
         return id;
     }
