@@ -1,0 +1,10 @@
+<h2>Transfer Funds</h2>
+<form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+  <label for="fromAccount">From Account:</label>
+  <input id="fromAccount" formControlName="fromAccount" />
+  <label for="toAccount">To Account:</label>
+  <input id="toAccount" formControlName="toAccount" />
+  <label for="amount">Amount:</label>
+  <input id="amount" type="number" formControlName="amount" />
+  <button type="submit" [disabled]="!transferForm.valid">Transfer</button>
+</form>

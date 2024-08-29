@@ -1,0 +1,17 @@
+<h2>Admin Dashboard</h2>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Address</th>
+    <th>Phone</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let account of accounts">
+    <td>{{ account.name }}</td>
+    <td>{{ account.address }}</td>
+    <td>{{ account.phone }}</td>
+    <td>
+      <button (click)="deactivateAccount(account.id)">Deactivate</button>
+    </td>
+  </tr>
+</table>
